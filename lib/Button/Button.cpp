@@ -3,6 +3,7 @@
 
 Button::Button(int pin)
 {
+    this->pin = pin;
     pinMode(pin, INPUT_PULLUP);
     state = digitalRead(pin);
     lastChangeTime = 0;
