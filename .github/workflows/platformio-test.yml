@@ -1,0 +1,22 @@
+name: PlatformIO CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set Up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install PlatformIO
+      run: pip install platformio
+
+    - name: Run PlatformIO Tests (Native)
+      run: pio test -e native
