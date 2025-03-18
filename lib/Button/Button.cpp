@@ -1,5 +1,12 @@
 #include "Button.h"
 
+#ifdef UNIT_TEST
+static long fakeMillis = 0;
+long millis() { return fakeMillis; }
+static int fakeButtonState = HIGH;
+int digitalRead(int pin) { return fakeButtonState; }
+#endif
+
 Button::Button(int pin) {
     this->pin = pin;
     pinMode(pin, INPUT_PULLUP);
