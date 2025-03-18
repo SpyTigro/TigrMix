@@ -11,19 +11,15 @@ Button::Button(int pin)
 bool Button::read()
 {
 
-    if (digitalRead(pin) != state)
+    if ((lastChangeTime + debounceDelay) > millis())
     {
-        lastDebounceTime = millis();
     }
 
-    if ((millis() - lastDebounceTime) > debounceDelay)
+    if (digitalRead(pin) != state)
     {
-        if (state)
-        {
             lastChangeTime = millis();
             state = !state;
             changed = true;
-        }
     }
     return state;
 }
