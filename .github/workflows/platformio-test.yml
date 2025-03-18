@@ -19,4 +19,4 @@ jobs:
       run: pip install platformio
 
     - name: Run PlatformIO Tests (Native)
-      run: pio test -e native
+      run: pio test -e micro
