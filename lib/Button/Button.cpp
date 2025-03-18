@@ -1,33 +1,83 @@
 #include "Button.h"
 #include <Arduino.h>
 
-Button::Button(int pin){
+Button::Button(int pin)
+{
     pinMode(pin, INPUT_PULLUP);
-    state = false;
-    prevState = false;
+    state = digitalRead(pin);
     lastChangeTime = 0;
 }
 
-void Button::tick() {
-    state = digitalRead(pin);
+bool Button::read()
+{
 
-    if(state != prevState){
+    if (digitalRead(pin) != state)
+    {
         lastDebounceTime = millis();
     }
-    if((millis() - lastDebounceTime) > debounceDelay){
-        lastChangeTime = millis();
-    }
-    prevState = state;
-}
 
-bool Button::getState() {
+    if ((millis() - lastDebounceTime) > debounceDelay)
+    {
+        if (state)
+        {
+            lastChangeTime = millis();
+            state = !state;
+            changed = true;
+        }
+    }
     return state;
 }
 
-long Button::getTimer() {
+bool Button::gotPressed()
+{
+    return (read() == PRESSED && hasChanged());
+}
+
+bool Button::gotReleased()
+{
+    return (read() == RELEASED && hasChanged());
+}
+
+bool Button::gotChanged()
+{
+    read();
+    return hasChanged();
+}
+
+bool Button::hasChanged()
+{
+    if (changed)
+    {
+        changed = false;
+        return true;
+    }
+    return false;
+}
+
+long Button::getTime()
+{
     return millis() - lastChangeTime;
 }
 
-void Button::setDebounceDelay(unsigned int delay){
+bool Button::doubleClicked(unsigned time = 250)
+{
+    if (getTime() <= time && state == RELEASED)
+    {
+        return gotPressed();
+    }
+    return false;
+}
+
+bool Button::longPressed(unsigned time = 3000)
+{
+    if (getTime() >= time && state == PRESSED)
+    {
+        return true;
+    }
+    return false;
+}
+
+void Button::setDebounceDelay(unsigned delay)
+{
     debounceDelay = delay;
 }
