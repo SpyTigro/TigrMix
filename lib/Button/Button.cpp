@@ -24,7 +24,7 @@ bool Button::read()
     {
         lastChangeTime = millis();
         state = currentState;
-        changed = true; // Mark change, reset only when explicitly checked
+        changed = true;
     }
 
     return state;
@@ -50,7 +50,7 @@ bool Button::hasChanged()
 {
     if (changed)
     {
-        changed = false; // Reset only after being checked
+        changed = false; 
         return true;
     }
     return false;
@@ -70,16 +70,14 @@ bool Button::gotDoubleClicked(unsigned time)
     {
         if (waitingForSecondPress && (millis() - firstPressTime <= time))
         {
-            waitingForSecondPress = false; // Reset after detecting a double click
-            return true;                   // Double-click detected
+            waitingForSecondPress = false; 
+            return true;                  
         }
 
-        // First press detected
         firstPressTime = millis();
         waitingForSecondPress = true;
     }
 
-    // Reset if time expires before the second press
     if (waitingForSecondPress && (millis() - firstPressTime > time))
     {
         waitingForSecondPress = false;
