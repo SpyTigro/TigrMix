@@ -60,13 +60,13 @@ class Button {
          * @param unsigned time (optional) time between clicks in ms
          * @returns true if the button got clicked again within the time frame(default 250ms)
          */
-        bool gotDoubleClicked(unsigned time);
+        bool gotDoubleClicked(unsigned time = 250);
 
         /**
          * @param unsigned int time (optional) time to hold the button in ms
          * @returns true if the button has been pressed for given time (default 3 sec)
          */
-        bool gotLongPressed(unsigned time);
+        bool gotLongPressed(unsigned time = 3000);
 
         /**
          * sets debounceDelay to custom value, default is 10 ms

@@ -23,10 +23,17 @@ Encoder enc = Encoder(ENC_PIN_A, ENC_PIN_B);
 Button encBtn = Button(ENC_BTN);
 
 void setup() {
+  Serial.begin(115200);
   // put your setup code here, to run once:
 }
 
 void loop() {
   enc.tick();
-  enc.CW;
+  
+  if(encBtn.gotPressed())
+    Serial.println("btn got pressed");
+  if(encBtn.gotDoubleClicked())
+    Serial.println("btn got double pressed"); 
+  if(encBtn.gotLongPressed())
+    Serial.println("btn got double pressed");
 }
