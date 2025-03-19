@@ -15,9 +15,8 @@ class Button {
 
         bool state;
         bool changed;
+        bool clickAgainOK;
         unsigned long lastChangeTime;
-
-        unsigned long lastDebounceTime;
         byte debounceDelay = 10;
         
         /**
@@ -30,7 +29,7 @@ class Button {
          * initializes button pin as INPUT_PULLUP, no extra hardware should be connected
          * so again just connect the button to the given Digital pin and GND of the arduino
          */
-        Button(int pin);
+        Button(byte pin);
 
         /**
          * Reads and updates state and timers
@@ -58,19 +57,17 @@ class Button {
          */
         long getTime();
 
-
         /**
          * @param unsigned time (optional) time between clicks in ms
-         * @returns true if the button got double clicked within the time frame(default 250ms)
+         * @returns true if the button got clicked again within the time frame(default 250ms)
          */
-        bool doubleClicked(unsigned time = 250);
+        bool gotClickedAgainWithin(unsigned time);
 
-        
         /**
          * @param unsigned int time (optional) time to hold the button in ms
          * @returns true if the button has been pressed for given time (default 3 sec)
          */
-        bool longPressed(unsigned time = 3000);
+        bool gotLongPressed(unsigned time);
 
         /**
          * sets debounceDelay to custom value, default is 10 ms

@@ -1,6 +1,8 @@
+// external libraries
 #include <Arduino.h>
 #include <LiquidCrystal.h>
 
+//my libraries
 #include "Encoder.h"
 #include "Button.h"
 
@@ -13,6 +15,7 @@
 #define LCD_D7 7
 LiquidCrystal lcd = LiquidCrystal(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
+//initialize encoder
 #define ENC_BTN 4
 #define ENC_PIN_A 2
 #define ENC_PIN_B 3

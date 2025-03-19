@@ -1,29 +1,28 @@
 #include "Button.h"
 #include <Arduino.h>
 
-Button::Button(int pin)
+Button::Button(byte pin)
 {
+    this->pin = pin;
     pinMode(pin, INPUT_PULLUP);
     state = digitalRead(pin);
     lastChangeTime = 0;
+    changed = false;
 }
 
 bool Button::read()
 {
 
-    if (digitalRead(pin) != state)
+    if ((lastChangeTime + debounceDelay) > millis()) 
     {
-        lastDebounceTime = millis();
+
     }
 
-    if ((millis() - lastDebounceTime) > debounceDelay)
+    else if (digitalRead(pin) != state)
     {
-        if (state)
-        {
-            lastChangeTime = millis();
-            state = !state;
-            changed = true;
-        }
+        lastChangeTime = millis();
+        state = !state;
+        changed = true;
     }
     return state;
 }
@@ -59,18 +58,22 @@ long Button::getTime()
     return millis() - lastChangeTime;
 }
 
-bool Button::doubleClicked(unsigned time = 250)
+bool Button::gotClickedAgainWithin(unsigned time = 250)
 {
-    if (getTime() <= time && state == RELEASED)
-    {
-        return gotPressed();
-    }
+    if(clickAgainOK && gotPressed())
+        return true;
+        
+    if (getTime() <= time && read() == RELEASED)
+        clickAgainOK = true;
+    else
+        clickAgainOK = false;
+    
     return false;
 }
 
-bool Button::longPressed(unsigned time = 3000)
+bool Button::gotLongPressed(unsigned time = 3000)
 {
-    if (getTime() >= time && state == PRESSED)
+    if (getTime() >= time && read() == PRESSED)
     {
         return true;
     }
