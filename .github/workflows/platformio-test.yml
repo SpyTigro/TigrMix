@@ -1,29 +1,21 @@
 name: PlatformIO CI
 
-on: [push, pull_request]
+on:  
+  push:  
+    branches: [main, develop]  # Runs on pushes to these branches  
+  pull_request:  
+    branches: [main, develop]  # Runs on PRs targeting these branches  
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
+jobs:  
+  test:  
+    runs-on: ubuntu-latest  # Uses the latest Ubuntu runner  
 
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+    steps:  
+      - name: Checkout Repository  
+        uses: actions/checkout@v4  # Fetches your repo  
 
-    - name: Set Up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      - name: Install PlatformIO  
+        run: pip install platformio  
 
-    - name: Install PlatformIO
-      run: pip install platformio
-
-    - name: Set Up Udev Rules
-      run: |
-        wget https://raw.githubusercontent.com/platformio/platformio-core/develop/scripts/99-platformio-udev.rules
-        sudo cp 99-platformio-udev.rules /etc/udev/rules.d/
-        sudo udevadm control --reload-rules
-        sudo udevadm trigger
-
-    - name: Run PlatformIO Tests (Micro)
-      run: pio test -e micro
+      - name: Run Unit Tests  
+        run: pio test -e native  # Run tests in the 'native' environment
