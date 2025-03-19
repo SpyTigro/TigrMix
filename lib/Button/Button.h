@@ -1,6 +1,15 @@
 #ifndef Button_h
 #define Button_h
 #include <Arduino.h>
+#ifdef ARDUINO
+#define MOCKABLE
+#else
+#define MOCKABLE virtual
+#endif
+
+class Button {
+public:
+};
 
 
 /**
@@ -24,6 +33,10 @@ class Button {
         bool hasChanged(); 
 
     public:
+        /**
+         * testing purposes
+         */
+        MOCKABLE int digitalRead(int pin);
         /**
          * initializes button pin as INPUT_PULLUP, no extra hardware should be connected
          * so again just connect the button to the given Digital pin and GND of the arduino

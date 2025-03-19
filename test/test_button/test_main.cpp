@@ -1,41 +1,128 @@
+#ifdef ARDUINO
 #include <Arduino.h>
+#else
+#include <iostream>
+#include <chrono>
+#include <thread>
+using namespace std;
+using namespace chrono;
+#endif
+
 #include <unity.h>
 #include "Button.h"
 
-Button testButton(2);  // Simulated button on pin 2
+// Namespace to avoid conflicts with Arduino millis()
+#ifndef ARDUINO
+namespace FakeTime {
+    static long fakeMillis = 0;
 
-void test_gotPressed() {
-    digitalWrite(2, LOW);  // Simulate button press
-    delay(10);  // Allow debounce
-    TEST_ASSERT_TRUE(testButton.gotPressed());
+    long millis() {
+        return fakeMillis;
+    }
+
+    void delay(int ms) {
+        fakeMillis += ms;
+    }
+}
+using namespace FakeTime;
+#endif
+
+// Mocked Button class for testing
+class TestButton : public Button {
+public:
+    TestButton(int pin) : Button(pin) {}
+
+    bool simulatedState = RELEASED;
+
+    int digitalRead(int pin) override {
+        return simulatedState;
+    }
+
+    void simulatePress() {
+        simulatedState = PRESSED;
+    }
+
+    void simulateRelease() {
+        simulatedState = RELEASED;
+    }
+};
+
+// Test button
+TestButton button(2);
+
+// Test: Initial state should be RELEASED
+void test_initial_state() {
+    TEST_ASSERT_EQUAL(button.RELEASED, button.read());
 }
 
-void test_gotReleased() {
-    digitalWrite(2, HIGH);  // Simulate button release
-    delay(10);
-    TEST_ASSERT_TRUE(testButton.gotReleased());
+// Test: Press detection
+void test_press() {
+    fakeMillis = 0; // Reset time
+    button.read();  // Initial read
+
+    button.simulatePress();  // Simulate button press
+    delay(51);  // Wait past debounce time
+    button.read(); 
+
+    TEST_ASSERT_TRUE(button.gotPressed());
 }
 
-void test_doubleClicked() {
-    digitalWrite(2, LOW);
-    delay(50);
-    digitalWrite(2, HIGH);
-    delay(50);
-    digitalWrite(2, LOW);
-    delay(50);
-    digitalWrite(2, HIGH);
-    delay(50);
+// Test: Release detection
+void test_release() {
+    button.simulatePress();
+    delay(100);
+    button.read();
 
-    TEST_ASSERT_TRUE(testButton.doubleClicked(250));
+    button.simulateRelease(); // Simulate button release
+    delay(51);
+    button.read();
+
+    TEST_ASSERT_TRUE(button.gotReleased());
 }
 
+// Test: Double Click Detection
+void test_double_click() {
+    button.simulatePress();
+    delay(100); // First press
+    button.read();
+
+    button.simulateRelease();
+    delay(200); // Release and second press
+    button.read();
+
+    button.simulatePress();
+    delay(50);
+    button.read();
+
+    TEST_ASSERT_TRUE(button.gotDoubleClicked(250)); // Should detect double click
+}
+
+// Test: Long Press Detection
+void test_long_press() {
+    button.simulatePress();
+    delay(3100); // Hold past 3s
+    button.read();
+
+    TEST_ASSERT_TRUE(button.gotLongPressed(3000)); // Should detect long press
+}
+
+// Setup tests
 void setup() {
-    delay(2000);  // Allow time for serial monitor
-    UNITY_BEGIN(); // Start testing
-    RUN_TEST(test_gotPressed);
-    RUN_TEST(test_gotReleased);
-    RUN_TEST(test_doubleClicked);
-    UNITY_END();   // End testing
+    UNITY_BEGIN();
+    RUN_TEST(test_initial_state);
+    RUN_TEST(test_press);
+    RUN_TEST(test_release);
+    RUN_TEST(test_double_click);
+    RUN_TEST(test_long_press);
+    UNITY_END();
 }
 
-void loop() { }
+void loop() {}
+
+// Main function for native testing
+#ifndef ARDUINO
+int main() {
+    setup();
+    return 0;
+}
+#endif
