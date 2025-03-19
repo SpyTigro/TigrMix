@@ -7,7 +7,7 @@ static int fakeButtonState = HIGH;
 int digitalRead(int pin) { return fakeButtonState; }
 #endif
 
-Button::Button(int pin)
+Button::Button(byte pin)
 {
     this->pin = pin;
     pinMode(pin, INPUT_PULLUP);

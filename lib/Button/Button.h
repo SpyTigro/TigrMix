@@ -15,7 +15,6 @@ class Button {
 
         bool state;
         bool changed;
-        bool clickAgainOK;
         unsigned long lastChangeTime;
         byte debounceDelay = 10;
         
