@@ -61,7 +61,7 @@ class Button {
          * @param unsigned time (optional) time between clicks in ms
          * @returns true if the button got clicked again within the time frame(default 250ms)
          */
-        bool gotClickedAgainWithin(unsigned time);
+        bool gotDoubleClicked(unsigned time);
 
         /**
          * @param unsigned int time (optional) time to hold the button in ms

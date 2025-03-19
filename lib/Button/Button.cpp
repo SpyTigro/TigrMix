@@ -1,7 +1,13 @@
 #include "Button.h"
-#include <Arduino.h>
 
-Button::Button(byte pin)
+#ifdef UNIT_TEST
+static long fakeMillis = 0;
+long millis() { return fakeMillis; }
+static int fakeButtonState = HIGH;
+int digitalRead(int pin) { return fakeButtonState; }
+#endif
+
+Button::Button(int pin)
 {
     this->pin = pin;
     pinMode(pin, INPUT_PULLUP);
@@ -12,18 +18,15 @@ Button::Button(byte pin)
 
 bool Button::read()
 {
+    bool currentState = digitalRead(pin);
 
-    if ((lastChangeTime + debounceDelay) > millis()) 
-    {
-
-    }
-
-    else if (digitalRead(pin) != state)
+    if (currentState != state && (millis() - lastChangeTime) > debounceDelay)
     {
         lastChangeTime = millis();
-        state = !state;
-        changed = true;
+        state = currentState;
+        changed = true; // Mark change, reset only when explicitly checked
     }
+
     return state;
 }
 
@@ -47,7 +50,7 @@ bool Button::hasChanged()
 {
     if (changed)
     {
-        changed = false;
+        changed = false; // Reset only after being checked
         return true;
     }
     return false;
@@ -58,26 +61,36 @@ long Button::getTime()
     return millis() - lastChangeTime;
 }
 
-bool Button::gotClickedAgainWithin(unsigned time = 250)
+bool Button::gotDoubleClicked(unsigned time)
 {
-    if(clickAgainOK && gotPressed())
-        return true;
-        
-    if (getTime() <= time && read() == RELEASED)
-        clickAgainOK = true;
-    else
-        clickAgainOK = false;
-    
+    static long firstPressTime = 0;
+    static bool waitingForSecondPress = false;
+
+    if (gotPressed())
+    {
+        if (waitingForSecondPress && (millis() - firstPressTime <= time))
+        {
+            waitingForSecondPress = false; // Reset after detecting a double click
+            return true;                   // Double-click detected
+        }
+
+        // First press detected
+        firstPressTime = millis();
+        waitingForSecondPress = true;
+    }
+
+    // Reset if time expires before the second press
+    if (waitingForSecondPress && (millis() - firstPressTime > time))
+    {
+        waitingForSecondPress = false;
+    }
+
     return false;
 }
 
-bool Button::gotLongPressed(unsigned time = 3000)
+bool Button::gotLongPressed(unsigned time)
 {
-    if (getTime() >= time && read() == PRESSED)
-    {
-        return true;
-    }
-    return false;
+    return (getTime() >= time && state == PRESSED);
 }
 
 void Button::setDebounceDelay(unsigned delay)
