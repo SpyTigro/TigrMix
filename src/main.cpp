@@ -3,6 +3,7 @@
 #include <LiquidCrystal.h>
 
 // my libraries
+#include "Pages.h"
 #include "Encoder.h"
 #include "Button.h"
 
@@ -27,7 +28,6 @@ void setup()
 	lcd.begin(16, 2);
 
 	Serial.begin(115200);
-	// put your setup code here, to run once:
 }
 
 void loop()
