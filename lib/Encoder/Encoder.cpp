@@ -1,12 +1,19 @@
 #include "Encoder.h"
 #include <Arduino.h>
 
-Encoder::Encoder(int pinA, int pinB)
+Encoder::Encoder(int pinA, int pinB) : pinA(pinA),
+                                       pinB(pinB),
+                                       state(0),
+                                       prevState(0),
+                                       busyCW(false),
+                                       busyCCW(false),
+                                       reachedCW(false),
+                                       reachedCCW(false),
+                                       pulseCW(false),
+                                       pulseCCW(false)
 {
     pinMode(pinA, INPUT_PULLUP);
     pinMode(pinB, INPUT_PULLUP);
-    state = 0;
-    prevState = 0;
 }
 
 void Encoder::tick()
@@ -46,10 +53,17 @@ void Encoder::tick()
     prevState = state;
 }
 
-byte Encoder::getPulseDir(){
-    if(pulseCCW)
+int Encoder::getPulseDir()
+{
+    if (pulseCCW)
+    {
+        pulseCCW = false;
         return -1;
-    if(pulseCW)
+    }
+    if (pulseCW)
+    {
+        pulseCW = false;
         return 1;
+    }
     return 0;
 }

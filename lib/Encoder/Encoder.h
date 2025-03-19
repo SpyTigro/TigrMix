@@ -39,7 +39,7 @@ class Encoder {
          * CCW = -1 | stationary | CW = 1
          * or use the built in flags
          */
-        byte getPulseDir();
+        int getPulseDir();
 
         /**
          * Compare with getPulseDir() to check for CCW rotation

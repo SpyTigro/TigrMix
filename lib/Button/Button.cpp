@@ -1,12 +1,11 @@
 #include "Button.h"
 
-Button::Button(byte pin)
+Button::Button(byte pin) : pin(pin),
+                           state(digitalRead(pin)),
+                           lastChangeTime(0),
+                           changed(false)
 {
-    this->pin = pin;
     pinMode(pin, INPUT_PULLUP);
-    state = digitalRead(pin);
-    lastChangeTime = 0;
-    changed = false;
 }
 
 bool Button::read()
@@ -43,7 +42,7 @@ bool Button::hasChanged()
 {
     if (changed)
     {
-        changed = false; 
+        changed = false;
         return true;
     }
     return false;
@@ -63,8 +62,8 @@ bool Button::gotDoubleClicked(unsigned time)
     {
         if (waitingForSecondPress && (millis() - firstPressTime <= time))
         {
-            waitingForSecondPress = false; 
-            return true;                  
+            waitingForSecondPress = false;
+            return true;
         }
 
         firstPressTime = millis();
