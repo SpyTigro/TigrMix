@@ -1,13 +1,13 @@
-#include "Page.h"
+#include "VolumePage.h"
 
-Page::Page(String name, LiquidCrystal *display, uint8_t volume, bool isIput) : name(name),
-                                                                               display(display),
-                                                                               pageVolume(VolumeTracker(volume, false)),
-                                                                               isInput(isInput)
+VolumePage::VolumePage(String name, LiquidCrystal *display, uint8_t volume, bool isInput) : pageVolume(VolumeTracker(volume, false)),
+                                                                                            isInput(isInput)
 {
+    this->name = name;
+    this->display = display;
 }
 
-void Page::drawPage()
+void VolumePage::drawPage()
 {
     if (isInput)
     {
@@ -38,6 +38,4 @@ void Page::drawPage()
     display->createChar(5, dotF);
     display->createChar(6, filled2W);
     display->createChar(7, filled4W);
-
-
 }

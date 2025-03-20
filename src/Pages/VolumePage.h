@@ -1,19 +1,19 @@
-#ifndef Page_H
-#define Page_H
+#ifndef VolumePage_H
+#define VolumePage_H
 #include <Arduino.h>
 #include <LiquidCrystal.h>
+#include "Page.h"
 #include "VolumeTracker.h"
 
-class Page
+class VolumePage : public Page
 {
 private:
-    String name;
-    LiquidCrystal *display;
     VolumeTracker pageVolume;
     bool isInput;
 
 public:
-    Page(String name, LiquidCrystal *display, uint8_t volume = 50, bool isInput = false);
+
+    VolumePage(String name, LiquidCrystal *display, uint8_t volume = 50, bool isInput = false);
 
     void drawPage();
 
@@ -64,5 +64,4 @@ public:
         pageVolume.unmute();
     }
 };
-
 #endif

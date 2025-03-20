@@ -2,8 +2,8 @@
 
 Button::Button(byte pin) : pin(pin),
                            state(digitalRead(pin)),
-                           lastChangeTime(0),
-                           changed(false)
+                           changed(false),
+                           lastChangeTime(0)
 {
     pinMode(pin, INPUT_PULLUP);
 }

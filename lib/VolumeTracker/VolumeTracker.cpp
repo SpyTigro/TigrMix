@@ -29,7 +29,7 @@ void VolumeTracker::addVolume(uint8_t value)
 
 void VolumeTracker::setVolume(uint8_t volume)
 {
-    if (0 > volume > 100)
+    if (0 > volume && volume > 100)
         return;
     this->volume = volume;
 }
