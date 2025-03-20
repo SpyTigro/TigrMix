@@ -3,7 +3,7 @@
 #include <LiquidCrystal.h>
 
 // my libraries
-#include "Pages.h"
+#include "Page.h"
 #include "Encoder.h"
 #include "Button.h"
 
@@ -23,11 +23,16 @@ LiquidCrystal lcd = LiquidCrystal(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7
 Encoder enc = Encoder(ENC_PIN_A, ENC_PIN_B);
 Button encBtn = Button(ENC_BTN);
 
+Page pages[];
+unsigned pageIdx = 0;
+
 void setup()
 {
 	lcd.begin(16, 2);
 
 	Serial.begin(115200);
+
+	
 }
 
 void loop()
