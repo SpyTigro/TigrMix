@@ -55,9 +55,6 @@ long Button::getTime()
 
 bool Button::gotDoubleClicked(unsigned time)
 {
-    static long firstPressTime = 0;
-    static bool waitingForSecondPress = false;
-
     if (gotPressed())
     {
         if (waitingForSecondPress && (millis() - firstPressTime <= time))
