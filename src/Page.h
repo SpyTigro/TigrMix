@@ -10,10 +10,10 @@ private:
     String name;
     LiquidCrystal *display;
     VolumeTracker pageVolume;
-    bool input;
+    bool isInput;
 
 public:
-    Page(String name, LiquidCrystal *display, uint8_t volume = 50, bool input = false);
+    Page(String name, LiquidCrystal *display, uint8_t volume = 50, bool isInput = false);
 
     void drawPage();
 
@@ -22,7 +22,7 @@ public:
     /**
      * @returns current volume
      */
-    byte getVolume()
+    uint8_t getVolume()
     {
         return pageVolume.getVolume();
     }
@@ -46,7 +46,7 @@ public:
     /**
      * VolumeTracker.setVolume(value)
      */
-    void setVolume(byte value)
+    void setVolume(uint8_t value)
     {
         pageVolume.setVolume(value);
     }

@@ -17,6 +17,9 @@ class Button {
         bool changed;
         unsigned long lastChangeTime;
         byte debounceDelay = 10;
+
+        bool waitingForSecondPress = false;
+        long firstPressTime = 0;
         
         /**
          * @returns if the button has Changed without reading
