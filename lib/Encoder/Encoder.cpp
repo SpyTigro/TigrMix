@@ -1,69 +1,58 @@
 #include "Encoder.h"
-#include <Arduino.h>
 
-Encoder::Encoder(int pinA, int pinB) : pinA(pinA),
-                                       pinB(pinB),
-                                       state(0),
-                                       prevState(0),
-                                       busyCW(false),
-                                       busyCCW(false),
-                                       reachedCW(false),
-                                       reachedCCW(false),
-                                       pulseCW(false),
-                                       pulseCCW(false)
+Encoder::Encoder(uint8_t RotL, uint8_t RotR) : pin_RotL(RotL),
+                                               pin_RotR(RotR)
 {
-    pinMode(pinA, INPUT_PULLUP);
-    pinMode(pinB, INPUT_PULLUP);
+    pinMode(pin_RotL, INPUT_PULLUP);
+    pinMode(pin_RotR, INPUT_PULLUP);
 }
+
 
 void Encoder::tick()
 {
-    bool A_State = digitalRead(pinA);
-    bool B_State = digitalRead(pinB);
+    enc_Pulse_Left = false;
+    enc_Pulse_Right = false;
 
-    state = (A_State << 1) | B_State;
+    bool valueRead_RotL = digitalRead(pin_RotL);
+    bool valueRead_RotR = digitalRead(pin_RotR);
 
-    if (state != prevState)
-    {
-        if (!busyCCW && !busyCW)
-        {
-            if (state == 1)
-                busyCCW = true;
-            else if (state == 2)
-                busyCW = true;
+    //////////////////////////////////////////////////////////
+    /////// Handling of rotary encoder starts here ///////////
+    //////////////////////////////////////////////////////////
+
+    byte enc_pos = 0; // Construct encoder-pos 0-1-2-3-0-1-2-3-0-....
+    if (valueRead_RotL == false)
+        enc_pos |= (1 << 0); // Remark: ACTIVE-LOW handled here!
+    if (valueRead_RotR == false)
+        enc_pos |= (1 << 1);
+
+    if (enc_pos != prev_enc_pos)
+    { // Handle when value changed
+        if (!enc_rot_busy_Left && !enc_rot_busy_Right)
+        { // Get initiated direction
+            if (enc_pos == 1)
+                enc_rot_busy_Left = true;
+            else if (enc_pos == 2)
+                enc_rot_busy_Right = true;
         }
 
-        if (busyCW && (state == 1))
-            reachedCW = true;
-        if (busyCCW && (state == 2))
-            reachedCCW = true;
-        if (state == 0)
-        {
-            if (busyCW && reachedCW)
-                pulseCW = true;
-            if (busyCCW && reachedCCW)
-                pulseCCW = true;
+        if (enc_rot_busy_Left && (enc_pos == 2))
+            enc_reached_Right = true; // When turning, check if opposite is reached
+        if (enc_rot_busy_Right && (enc_pos == 1))
+            enc_reached_Left = true;
 
-            busyCW = false;
-            busyCCW = false;
-            reachedCW = false;
-            reachedCCW = false;
+        if (enc_pos == 0)
+        { // When turning, wait till back at 0
+            if (enc_rot_busy_Left && enc_reached_Right)
+                enc_Pulse_Left = true; // If initiated som dir + reached opposite = pulse
+            else if (enc_rot_busy_Right && enc_reached_Left)
+                enc_Pulse_Right = true;
+
+            enc_rot_busy_Left = false; // Clear all flags at 0
+            enc_rot_busy_Right = false;
+            enc_reached_Left = false;
+            enc_reached_Right = false;
         }
     }
-    prevState = state;
-}
-
-int Encoder::getPulseDir()
-{
-    if (pulseCCW)
-    {
-        pulseCCW = false;
-        return -1;
-    }
-    if (pulseCW)
-    {
-        pulseCW = false;
-        return 1;
-    }
-    return 0;
+    prev_enc_pos = enc_pos; // Remember state of encoder+button
 }

@@ -46,7 +46,7 @@ void loop()
 	if (encBtn.gotDoubleClicked())
 		Serial.println("btn got double pressed");
 	if (encBtn.gotLongPressed())
-		Serial.println("btn got double pressed");
+		Serial.println("btn got long pressed");
 
 	if (enc.getPulseDir() == enc.CCW)
 		Serial.println("turned CCW");
