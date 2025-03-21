@@ -10,8 +10,8 @@ Encoder::Encoder(uint8_t RotL, uint8_t RotR) : pin_RotL(RotL),
 
 void Encoder::tick()
 {
-    enc_Pulse_Left = false;
-    enc_Pulse_Right = false;
+    pulseLeft = false;
+    pulseRight = false;
 
     bool valueRead_RotL = digitalRead(pin_RotL);
     bool valueRead_RotR = digitalRead(pin_RotR);
@@ -44,9 +44,9 @@ void Encoder::tick()
         if (enc_pos == 0)
         { // When turning, wait till back at 0
             if (enc_rot_busy_Left && enc_reached_Right)
-                enc_Pulse_Left = true; // If initiated som dir + reached opposite = pulse
+                pulseLeft = true; // If initiated som dir + reached opposite = pulse
             else if (enc_rot_busy_Right && enc_reached_Left)
-                enc_Pulse_Right = true;
+                pulseRight = true;
 
             enc_rot_busy_Left = false; // Clear all flags at 0
             enc_rot_busy_Right = false;

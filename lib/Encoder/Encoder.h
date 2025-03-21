@@ -8,8 +8,8 @@ public:
     //Setup
     Encoder(uint8_t RotL, uint8_t RotR);
     //encoder rotations
-    bool enc_Pulse_Left = false;
-    bool enc_Pulse_Right = false;
+    bool pulseLeft = false;
+    bool pulseRight = false;
     // main loop
     void tick();
 

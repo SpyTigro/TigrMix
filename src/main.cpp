@@ -48,8 +48,8 @@ void loop()
 	if (encBtn.gotLongPressed())
 		Serial.println("btn got long pressed");
 
-	if (enc.getPulseDir() == enc.CCW)
-		Serial.println("turned CCW");
-	if (enc.getPulseDir() == enc.CW)
-		Serial.println("turned CW");
+	if (enc.pulseLeft)
+		Serial.println("turned left");
+	if (enc.pulseRight)
+		Serial.println("turned right");
 }
