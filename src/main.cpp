@@ -28,6 +28,8 @@ Page pages[5];
 
 unsigned pageIdx = 0;
 
+
+
 void setup()
 {
 	lcd.begin(16, 2);
@@ -40,11 +42,12 @@ void setup()
 void loop()
 {
 	enc.tick();
+	encBtn.tick();
 
-	if (encBtn.gotPressed())
-		Serial.println("btn got pressed");
 	if (encBtn.gotDoubleClicked())
 		Serial.println("btn got double pressed");
+	if (encBtn.gotPressed)
+		Serial.println("btn got pressed");
 	if (encBtn.gotLongPressed())
 		Serial.println("btn got long pressed");
 

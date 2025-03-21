@@ -1,14 +1,14 @@
 #include "Button.h"
 
 Button::Button(byte pin) : pin(pin),
-                           state(digitalRead(pin)),
                            changed(false),
-                           lastChangeTime(0)
+                           lastChangeTime(0),
+                           state(digitalRead(pin))
 {
     pinMode(pin, INPUT_PULLUP);
 }
 
-bool Button::read()
+void Button::tick()
 {
     bool currentState = digitalRead(pin);
 
@@ -19,23 +19,18 @@ bool Button::read()
         changed = true;
     }
 
-    return state;
-}
-
-bool Button::gotPressed()
-{
-    return (read() == PRESSED && hasChanged());
-}
-
-bool Button::gotReleased()
-{
-    return (read() == RELEASED && hasChanged());
-}
-
-bool Button::gotChanged()
-{
-    read();
-    return hasChanged();
+    if (hasChanged())
+    {
+        if (state == PRESSED)
+            gotPressed = true;
+        else
+            gotReleased = false;
+    }
+    else
+    {
+        gotPressed = false;
+        gotReleased = false;
+    }
 }
 
 bool Button::hasChanged()
@@ -48,25 +43,28 @@ bool Button::hasChanged()
     return false;
 }
 
-long Button::getTime()
+unsigned Button::getTime()
 {
     return millis() - lastChangeTime;
 }
 
 bool Button::gotDoubleClicked(unsigned time)
 {
-    if (gotPressed())
+    // Check for a button press
+    if (gotPressed)
     {
         if (waitingForSecondPress && (millis() - firstPressTime <= time))
         {
-            waitingForSecondPress = false;
-            return true;
+            waitingForSecondPress = false; // Reset after detecting double-click
+            return true;                   // Double-click detected
         }
 
+        // Record the time of the first press and start waiting for the second press
         firstPressTime = millis();
         waitingForSecondPress = true;
     }
 
+    // Reset if the time window expires
     if (waitingForSecondPress && (millis() - firstPressTime > time))
     {
         waitingForSecondPress = false;

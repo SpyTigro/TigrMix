@@ -11,79 +11,36 @@
  */
 class Button {
     private:
-        byte pin;
 
-        bool state;
-        bool changed;
-        unsigned long lastChangeTime;
-        byte debounceDelay = 10;
+    byte pin;
+    bool changed;
+    unsigned long lastChangeTime;
+    byte debounceDelay = 10;
 
-        bool waitingForSecondPress = false;
-        long firstPressTime = 0;
-        
-        /**
-         * @returns if the button has Changed without reading
-         */
-        bool hasChanged(); 
+    unsigned long firstPressTime = 0;
+    bool waitingForSecondPress = false;
+
+    bool hasChanged();
 
     public:
-        /**
-         * initializes button pin as INPUT_PULLUP, no extra hardware should be connected
-         * so again just connect the button to the given Digital pin and GND of the arduino
-         */
-        Button(byte pin);
 
-        /**
-         * Reads and updates state and timers
-         * @returns state
-         */
-        bool read();
+    Button(byte pin);
 
-        /**
-         * @returns if the button got pressed in recently
-         */
-        bool gotPressed();
+    void tick();
+    
+    bool state;
+    bool gotPressed;
+    bool gotReleased;
 
-        /**
-         * @returns if the button got released recently
-         */
-        bool gotReleased(); 
+    unsigned getTime();
 
-        /**
-         * @returns if the button was changed states
-         */
-        bool gotChanged();
+    bool gotDoubleClicked(unsigned time = 250);
+    bool gotLongPressed(unsigned time = 3000);
 
-        /**
-         * @returns time for how long the btn was pressed last time
-         */
-        long getTime();
+    void setDebounceDelay(unsigned delay);
 
-        /**
-         * @param unsigned time (optional) time between clicks in ms
-         * @returns true if the button got clicked again within the time frame(default 250ms)
-         */
-        bool gotDoubleClicked(unsigned time = 250);
+    const static bool PRESSED = false;
+    const static bool RELEASED = true;
 
-        /**
-         * @param unsigned int time (optional) time to hold the button in ms
-         * @returns true if the button has been pressed for given time (default 3 sec)
-         */
-        bool gotLongPressed(unsigned time = 3000);
-
-        /**
-         * sets debounceDelay to custom value, default is 10 ms
-         * @param unsigned delay
-         */
-        void setDebounceDelay(unsigned delay);
-
-        /**
-         * Compare with read() to check if button is closed
-         */
-        const static bool PRESSED = false;
-        /**
-         * Compare with read() to check if button is open
-         */
-        const static bool RELEASED = true; 
 };
 #endif
