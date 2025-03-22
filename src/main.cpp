@@ -4,7 +4,8 @@
 
 // my libraries
 #include "Pages/Page.h"
-#include "Pages/VolumePage.h"
+#include "Pages/VolumePage/VolumePage.h"
+#include "Pages/VolumePage/VolumeTracker.h"
 #include "Encoder.h"
 #include "Button.h"
 
@@ -24,19 +25,16 @@ LiquidCrystal lcd = LiquidCrystal(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7
 Encoder enc = Encoder(ENC_PIN_A, ENC_PIN_B);
 Button encBtn = Button(ENC_BTN);
 
-Page pages[5];
-
+VolumeTracker volumes[];
 unsigned pageIdx = 0;
 
-
+void sendVolumeValues();
 
 void setup()
 {
 	lcd.begin(16, 2);
 
 	Serial.begin(115200);
-
-	
 }
 
 void loop()
@@ -55,4 +53,23 @@ void loop()
 		Serial.println("turned left");
 	if (enc.pulseRight)
 		Serial.println("turned right");
+
+	sendVolumeValues();
+}
+
+void sendVolumeValues() // uses deej to change the values on the pc
+{
+	String builtString = String("");
+	size_t amountOfVolumes = sizeof(volumes);
+	for (unsigned i = 0; i < amountOfVolumes; i++)
+	{
+		builtString += String(volumes[i].getVolume());
+
+		if (i < amountOfVolumes - 1)
+		{
+			builtString += String("|");
+		}
+	}
+
+	Serial.println(builtString);
 }

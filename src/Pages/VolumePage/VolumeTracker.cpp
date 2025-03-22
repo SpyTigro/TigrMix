@@ -1,8 +1,17 @@
 #include "VolumeTracker.h"
 
-VolumeTracker::VolumeTracker(uint8_t volume, bool mute) : volume(volume),
-                                                       muted(mute)
+VolumeTracker::VolumeTracker(String name, uint8_t volume, bool mute) : name(name),
+                                                                       volume(volume),
+                                                                       muted(mute)
 {
+}
+
+String VolumeTracker::getName(){
+    return name;
+}
+
+void VolumeTracker::setName(String name){
+    this->name = name;
 }
 
 uint8_t VolumeTracker::getVolume()

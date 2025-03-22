@@ -1,7 +1,7 @@
 #include "VolumePage.h"
 
-VolumePage::VolumePage(String name, LiquidCrystal *display, uint8_t volume, bool isInput) : pageVolume(VolumeTracker(volume, false)),
-                                                                                            isInput(isInput)
+VolumePage::VolumePage(String name, LiquidCrystal *display, VolumeTracker *volumeTracker, bool isInput) : pageVolume(volumeTracker),
+                                                                                                          isInput(isInput)
 {
     this->name = name;
     this->display = display;

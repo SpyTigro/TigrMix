@@ -4,11 +4,15 @@
 
 class VolumeTracker {
     private:
+        String name;
         uint8_t volume = 50;
         bool muted = false;
     public:
-        VolumeTracker(uint8_t volume, bool mute);
+        VolumeTracker(String name, uint8_t volume, bool mute);
 
+        String getName();
+
+        void setName(String name);
         /**
          * @returns current volume
          */
