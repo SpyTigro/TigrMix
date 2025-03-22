@@ -8,7 +8,7 @@ class VolumeTracker {
         uint8_t volume = 50;
         bool muted = false;
     public:
-        VolumeTracker(String name, uint8_t volume, bool mute);
+        VolumeTracker(String name, uint8_t volume = 50, bool mute = false);
 
         String getName();
 
