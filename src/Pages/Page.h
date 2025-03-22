@@ -10,6 +10,8 @@ protected:
     LiquidCrystal *display;
 
 public:
+	Page(String name, LiquidCrystal *display);
+	
     String getName(){
         return name;
     }

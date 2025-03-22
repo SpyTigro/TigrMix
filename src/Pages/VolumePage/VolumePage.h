@@ -13,7 +13,7 @@ private:
 
 public:
 
-    VolumePage(String name, LiquidCrystal *display, uint8_t volume = 50, bool isInput = false);
+    VolumePage(String name, LiquidCrystal *display, VolumeTracker * VolumeTracker, bool isInput = false);
 
     void drawPage();
 
