@@ -6,11 +6,13 @@ VolumeTracker::VolumeTracker(String name, uint8_t volume, bool mute) : name(name
 {
 }
 
-String VolumeTracker::getName(){
+String VolumeTracker::getName()
+{
     return name;
 }
 
-void VolumeTracker::setName(String name){
+void VolumeTracker::setName(String name)
+{
     this->name = name;
 }
 
@@ -26,14 +28,18 @@ bool VolumeTracker::isMuted()
 
 void VolumeTracker::addVolume(int8_t value)
 {
-    if (volume - value < 0)
+    if ((int8_t)volume + value < 0)
     {
         volume = 0;
         return;
     }
-    volume += value;
-    if (volume > 100)
+    else if (volume + value > 100)
+    {
         volume = 100;
+        return;
+    }
+    volume += value;
+    return;
 }
 
 void VolumeTracker::setVolume(uint8_t volume)
