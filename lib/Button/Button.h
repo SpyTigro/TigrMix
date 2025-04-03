@@ -20,6 +20,8 @@ class Button {
     unsigned long firstPressTime = 0;
     bool waitingForSecondPress = false;
 
+    bool longPressed;
+
     bool hasChanged();
 
     public:
