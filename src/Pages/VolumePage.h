@@ -15,13 +15,13 @@ private:
 public:
     VolumePage(String name, LiquidCrystal *display, Button *btn, Encoder *enc, VolumeTracker *volumeTracker, bool isInput);
 
-    void drawPage();
-
-    void tick();
-
     
     Page *load();
 
+    void tick();
+        
+    void drawPage();
+ 
     VolumeTracker getPageVolumeTracker()
     {
         return *pageVolume;

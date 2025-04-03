@@ -11,9 +11,11 @@ OverviewPage::OverviewPage(String name, LiquidCrystal *display, Button *btn, Enc
 }
 
 Page *OverviewPage::load(){
+    display->clear();
+
     display->createChar((byte)0, arrowL);
 	display->createChar(1, arrowR);
-	display->createChar(2, speaker);
+	display->createChar(2, speakerIcon);
 	display->createChar(3, micIcon);
 	display->createChar(4, speakerMute);
 	display->createChar(5, micMute);

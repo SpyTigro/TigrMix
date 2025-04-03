@@ -33,7 +33,9 @@ public:
 
     void drawPage();
 
-    void getVolumeTrackers();
+    VolumeTracker **getVolumeTrackers() { 
+        return volumes;
+    }
 
     bool nextPage() { return btn->gotLongPressed(); }
 };
