@@ -45,8 +45,8 @@ bool areInputs[5] = {
 
 Page *pages[PAGE_AMOUNT] = {new OverviewPage("Volumes", lcd, encBtn, enc, volumes, areInputs),
 							new VolumePage("Mic", lcd, encBtn, enc, volumes[4], areInputs[4])};
-unsigned pageIdx = 0;
-Page *curPage = pages[pageIdx]->load();
+unsigned pageIdx = 1; // cant be zero, which is the homepage only accesible by the action that the active page defined in homePage()
+Page *curPage = pages[0]->load();
 
 void sendVolumeValues();
 
@@ -70,8 +70,10 @@ void loop()
 		pageIdx = pageIdx - 1 >= 1 ? pageIdx - 1 : PAGE_AMOUNT - 1;
 		curPage = pages[pageIdx]->load();
 	}
-	if (curPage->homePage())
-		curPage = pages[0]->load();
+	if (curPage->homePage()){
+		if(curPage == pages[0]) curPage = pages[pageIdx]->load();
+		else curPage = pages[0]->load();
+	}
 
 	sendVolumeValues();
 }
