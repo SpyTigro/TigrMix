@@ -2,6 +2,7 @@
 #define OverviewPage_H
 #include "Page.h"
 #include "../util/VolumeTracker.h"
+#include "../lcdChar.h"
 
 /**
  * this type of page displays 4 volume trackers and makes them quickly accesible
@@ -26,9 +27,11 @@ private:
 public:
     OverviewPage(String name, LiquidCrystal *display, Button *btn, Encoder *enc, VolumeTracker *volumeTrackers[], bool areInput[]);
 
-    void drawPage();
+    Page *load();
 
     void tick();
+
+    void drawPage();
 
     void getVolumeTrackers();
 

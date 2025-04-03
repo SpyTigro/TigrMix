@@ -2,7 +2,7 @@
 #define CUSTOM_LCD_CHARS
 #include <Arduino.h>
 
-byte speaker[] = {
+byte speakerIcon[] = {
   B00100,
   B01110,
   B11101,

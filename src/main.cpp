@@ -36,6 +36,7 @@ bool areInputs[5] = {VOLUME_1_IS_INPUT, VOLUME_2_IS_INPUT, VOLUME_3_IS_INPUT, VO
 Page *pages[PAGE_AMOUNT] = {new OverviewPage("Volumes", &lcd, &encBtn, &enc, volumes, areInputs),
 							new VolumePage("Mic", &lcd, &encBtn, &enc, volumes[4], areInputs[4])};
 unsigned pageIdx = 0;
+Page *curPage = pages[pageIdx];
 
 void sendVolumeValues();
 
@@ -45,23 +46,21 @@ void setup()
 
 	Serial.begin(115200);
 
-    // custom chars
-    lcd.createChar((byte)0, arrowL);
-    lcd.createChar(1, arrowR);
-    lcd.createChar(2, speaker);
-    lcd.createChar(3, micIcon);
-    lcd.createChar(4, speakerMute);
-    lcd.createChar(5, micMute);
-    lcd.createChar(6, dotE);
-    lcd.createChar(7, dotF);
 }
 
 void loop()
 {
-	Page *page = pages[pageIdx];
-	page->tick();
-	if(page->nextPage()) pageIdx = pageIdx + 1 < PAGE_AMOUNT ? pageIdx + 1 : 0; 
-	if(page->prevPage()) pageIdx = pageIdx - 1 >= 0 ? pageIdx - 1 : PAGE_AMOUNT - 1; 
+	curPage->tick();
+	if (curPage->nextPage())
+	{
+		pageIdx = pageIdx + 1 < PAGE_AMOUNT ? pageIdx + 1 : 0;
+		curPage = pages[pageIdx]->load();
+	}
+	if (curPage->prevPage())
+	{
+		pageIdx = pageIdx - 1 >= 0 ? pageIdx - 1 : PAGE_AMOUNT - 1;
+		curPage = pages[pageIdx]->load();
+	}
 
 	sendVolumeValues();
 }

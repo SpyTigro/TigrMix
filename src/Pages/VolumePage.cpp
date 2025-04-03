@@ -1,32 +1,25 @@
 #include "VolumePage.h"
 
-VolumePage::VolumePage(String name, LiquidCrystal *display,Button *btn, Encoder * enc, VolumeTracker *volumeTracker, bool isInput) : Page(name, display, btn, enc),
-                                                                                                          pageVolume(volumeTracker),
-                                                                                                          isInput(isInput)
+VolumePage::VolumePage(String name, LiquidCrystal *display, Button *btn, Encoder *enc, VolumeTracker *volumeTracker, bool isInput) : Page(name, display, btn, enc),
+                                                                                                                                     pageVolume(volumeTracker),
+                                                                                                                                     isInput(isInput)
 {
 }
 
-void VolumePage::tick(){
-    enc->tick();
-    btn->tick();
-
-    drawPage();
-}
-
-void VolumePage::drawPage()
+Page *VolumePage::load()
 {
     if (isInput)
     {
         byte micIcon[8] = {B00100, B01110, B01110, B01110, B10101, B11011, B00100, B01110};
         byte micMute[8] = {B00100, B01010, B01010, B01010, B10101, B11011, B00100, B01110};
-        display->createChar(0, micIcon);
+        display->createChar((byte)0, micIcon);
         display->createChar(1, micMute);
     }
     else
     {
         byte speakerIcon[8] = {B00100, B01110, B11101, B11101, B11101, B11101, B01110, B00100};
         byte speakerMute[8] = {B10100, B01100, B11100, B11100, B11100, B11110, B01110, B00101};
-        display->createChar(0, speakerIcon);
+        display->createChar((byte)0, speakerIcon);
         display->createChar(1, speakerMute);
     }
     static byte arrowL[8] = {B00011, B00111, B01110, B11100, B11100, B01110, B00111, B00011};
@@ -44,4 +37,16 @@ void VolumePage::drawPage()
     display->createChar(5, dotF);
     display->createChar(6, filled2W);
     display->createChar(7, filled4W);
+}
+
+void VolumePage::tick()
+{
+    enc->tick();
+    btn->tick();
+
+    drawPage();
+}
+
+void VolumePage::drawPage()
+{
 }
