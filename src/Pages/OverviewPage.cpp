@@ -16,7 +16,7 @@ OverviewPage::OverviewPage(String name, LiquidCrystal *display, Button *btn, Enc
 
 Page *OverviewPage::load(){
     display->clear();
-
+    selected = false;
     display->createChar((byte)0, arrowL);
 	display->createChar(1, arrowR);
 	display->createChar(2, speakerIcon);
@@ -93,7 +93,6 @@ void OverviewPage::volChangePrint(VolumeTracker *tracker, bool isInput, byte x, 
 {
 
     display->setCursor(x, y);
-    selected = false;
     byte byteToWrite;
     if (isInput)
         byteToWrite = tracker->isMuted() ? 5 : 3;
