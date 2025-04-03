@@ -8,6 +8,10 @@ OverviewPage::OverviewPage(String name, LiquidCrystal *display, Button *btn, Enc
         volumes[i] = volumeTrackers[i];
         areInputs[i] = areInput[i];
     }
+    //swap 2 and 3 so it makes sense that volume 4 is the BR but so the arrow goes in a circle
+    VolumeTracker *temp = volumes[2];
+    volumes[2] = volumes[3];
+    volumes[3] = temp;
 }
 
 Page *OverviewPage::load(){
@@ -34,14 +38,14 @@ void OverviewPage::tick()
         volumes[arrowPos]->toggleMute();
     if (enc->pulseRight)
     {
-        if (selected)
+        if (!selected)
             arrowPos = arrowPos - 1 < 0 ? 4 : arrowPos - 1;
         else
             volumes[arrowPos]->addVolume(2);
     }
     if (enc->pulseLeft)
     {
-        if (selected)
+        if (!selected)
         arrowPos = arrowPos + 1 < 4 ? arrowPos + 1 : 0;
         else
             volumes[arrowPos]->addVolume(-2);
@@ -70,12 +74,12 @@ void OverviewPage::drawPage()
             break;
         case 2:
             x = 10;
-            y = 0;
+            y = 1;
             leftFacing = true;
             break;
         case 3:
             x = 10;
-            y = 1;
+            y = 0;
             leftFacing = true;
             break;
         }
@@ -89,7 +93,7 @@ void OverviewPage::volChangePrint(VolumeTracker *tracker, bool isInput, byte x, 
 {
 
     display->setCursor(x, y);
-
+    selected = false;
     byte byteToWrite;
     if (isInput)
         byteToWrite = tracker->isMuted() ? 5 : 3;
@@ -101,28 +105,29 @@ void OverviewPage::volChangePrint(VolumeTracker *tracker, bool isInput, byte x, 
     String toPrint = "";
     if (!leftFacing)
     {
-        toPrint = volumeStr;
-        for (int i = volumeStr.length(); i < 4; i++)
-        {
-            toPrint += " ";
-        }
-        toPrint += name.charAt(0);
-
-        display->print(toPrint);
+        display->print(volumeStr);
+        display->setCursor(x+4,y);
+        display->print(name.charAt(0));
         display->write(byteToWrite);
     }
     else
     {
-        toPrint = name.charAt(0);
-        for (int i = volumeStr.length(); i < 4; i++)
-        {
-            toPrint += " ";
-        }
-        toPrint += volumeStr;
-
         display->write(byteToWrite);
-        display->print(toPrint);
+        display->print(name.charAt(0));
+        display->print(rightAllign(volumeStr, 4));
     }
+}
+
+String OverviewPage::rightAllign(String str, uint8_t width){
+    uint8_t len = str.length();
+    if(len > width) return "";
+    String res = "";
+        for (int i = len; i < width; i++)
+        {
+            res += " ";
+        }
+    res += str;
+    return res;
 }
 
 void OverviewPage::arrowPrinter(bool arrowLeft)
@@ -155,7 +160,7 @@ void OverviewPage::arrowPrinter(bool arrowLeft)
 
     display->setCursor(arrowPosX, arrowPosY);
     if (arrowLeft)
-        display->write((byte)0);
-    else
         display->write(1);
+    else
+        display->write((byte)0);
 }

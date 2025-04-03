@@ -23,6 +23,8 @@ private:
     int arrowPosX = 6; 
     int arrowPosY = 0;
     void arrowPrinter(bool arrowLeft);
+
+    String rightAllign(String str, uint8_t width);
 public:
     OverviewPage(String name, LiquidCrystal *display, Button *btn, Encoder *enc, VolumeTracker *volumeTrackers[], bool areInput[]);
 
@@ -36,6 +38,6 @@ public:
         return volumes;
     }
 
-    bool nextPage() { return btn->gotLongPressed(); }
+    bool homePage() { return btn->gotLongPressed(); }
 };
 #endif
