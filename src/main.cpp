@@ -81,7 +81,7 @@ void sendVolumeValues() // uses deej to change the values on the pc
 	String builtString = String("");
 	for (unsigned i = 0; i < VOLUME_AMOUNT; i++)
 	{
-		builtString += String(volumes[i]->getVolume());
+		builtString += volumes[i]->isMuted() ? "0" : String(volumes[i]->getVolume());
 
 		if (i < VOLUME_AMOUNT - 1)
 		{
