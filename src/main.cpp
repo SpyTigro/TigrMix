@@ -62,12 +62,12 @@ void loop()
 	curPage->tick();
 	if (curPage->nextPage())
 	{
-		pageIdx = pageIdx + 1 < PAGE_AMOUNT ? pageIdx + 1 : 0;
+		pageIdx = pageIdx + 1 < PAGE_AMOUNT ? pageIdx + 1 : 1;
 		curPage = pages[pageIdx]->load();
 	}
 	if (curPage->prevPage())
 	{
-		pageIdx = pageIdx - 1 >= 0 ? pageIdx - 1 : PAGE_AMOUNT - 1;
+		pageIdx = pageIdx - 1 >= 1 ? pageIdx - 1 : PAGE_AMOUNT - 1;
 		curPage = pages[pageIdx]->load();
 	}
 	if (curPage->homePage())
