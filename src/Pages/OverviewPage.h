@@ -1,7 +1,5 @@
 #ifndef OverviewPage_H
 #define OverviewPage_H
-#include <Arduino.h>
-#include <LiquidCrystal.h>
 #include "Page.h"
 #include "../util/VolumeTracker.h"
 
@@ -16,9 +14,11 @@ private:
     bool areInputs[4];
 
 public:
-    OverviewPage(String name, LiquidCrystal *display, VolumeTracker *volumeTrackers[], bool areInput[]);
+    OverviewPage(String name, LiquidCrystal *display, Button *btn, Encoder *enc, VolumeTracker *volumeTrackers[], bool areInput[]);
 
     void drawPage();
+
+    void tick();
 
     void getVolumeTrackers();
 };

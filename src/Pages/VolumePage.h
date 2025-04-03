@@ -1,7 +1,5 @@
 #ifndef VolumePage_H
 #define VolumePage_H
-#include <Arduino.h>
-#include <LiquidCrystal.h>
 #include "Page.h"
 #include "../util/VolumeTracker.h"
 
@@ -13,9 +11,11 @@ private:
 
 public:
 
-    VolumePage(String name, LiquidCrystal *display, VolumeTracker * VolumeTracker, bool isInput = false);
+    VolumePage(String name, LiquidCrystal *display,Button *btn, Encoder * enc, VolumeTracker *volumeTracker, bool isInput);
 
     void drawPage();
+
+    void tick();
 
     VolumeTracker *getPageVolumeTracker(){
         return pageVolume;

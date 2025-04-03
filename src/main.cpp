@@ -10,7 +10,7 @@
 #include "Encoder.h"
 #include "Button.h"
 
-//load config
+// load config
 #include "config.h"
 
 // initialize LCD
@@ -29,16 +29,14 @@ LiquidCrystal lcd = LiquidCrystal(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7
 Encoder enc = Encoder(ENC_PIN_A, ENC_PIN_B);
 Button encBtn = Button(ENC_BTN);
 
-VolumeTracker volumes[5] = {
-	VolumeTracker(VOLUME_NAME_1),
-	VolumeTracker(VOLUME_NAME_2),
-	VolumeTracker(VOLUME_NAME_3),
-	VolumeTracker(VOLUME_NAME_4),
-	VolumeTracker(VOLUME_NAME_5),
-};
+VolumeTracker *volumes[VOLUME_AMOUNT] = {new VolumeTracker(VOLUME_NAME_1), new VolumeTracker(VOLUME_NAME_2), new VolumeTracker(VOLUME_NAME_3), new VolumeTracker(VOLUME_NAME_4)};
+bool areInputs[VOLUME_AMOUNT] = {VOLUME_1_IS_INPUT, VOLUME_2_IS_INPUT, VOLUME_3_IS_INPUT, VOLUME_4_IS_INPUT};
+
+Page *pages[PAGE_AMOUNT] = {new OverviewPage("menu", &lcd, &encBtn, &enc, volumes, areInputs),
+							new VolumePage("Mic", &lcd, &encBtn, &enc, new VolumeTracker(VOLUME_NAME_5), VOLUME_5_IS_INPUT)};
 unsigned pageIdx = 0;
 
-void sendVolumeValues();
+//void sendVolumeValues();
 
 void setup()
 {
@@ -49,8 +47,7 @@ void setup()
 
 void loop()
 {
-	enc.tick();
-	encBtn.tick();
+	pages[pageIdx]->tick();
 
 	if (encBtn.gotDoubleClicked())
 		Serial.println("btn got double pressed");
@@ -64,22 +61,22 @@ void loop()
 	if (enc.pulseRight)
 		Serial.println("turned right");
 
-	sendVolumeValues();
+	//sendVolumeValues();
 }
 
-void sendVolumeValues() // uses deej to change the values on the pc
-{
-	String builtString = String("");
-	size_t amountOfVolumes = sizeof(volumes) / sizeof(volumes[0]);
-	for (unsigned i = 0; i < amountOfVolumes; i++)
-	{
-		builtString += String(volumes[i].getVolume());
+// void sendVolumeValues() // uses deej to change the values on the pc
+// {
+// 	String builtString = String("");
+// 	size_t amountOfVolumes = sizeof(volumes) / sizeof(volumes[0]);
+// 	for (unsigned i = 0; i < amountOfVolumes; i++)
+// 	{
+// 		builtString += String(volumes[i].getVolume());
 
-		if (i < amountOfVolumes - 1)
-		{
-			builtString += String("|");
-		}
-	}
+// 		if (i < amountOfVolumes - 1)
+// 		{
+// 			builtString += String("|");
+// 		}
+// 	}
 
-	Serial.println(builtString);
-}
+// 	Serial.println(builtString);
+// }

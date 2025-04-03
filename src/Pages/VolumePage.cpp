@@ -1,9 +1,16 @@
 #include "VolumePage.h"
 
-VolumePage::VolumePage(String name, LiquidCrystal *display, VolumeTracker *volumeTracker, bool isInput) : Page(name, display),
+VolumePage::VolumePage(String name, LiquidCrystal *display,Button *btn, Encoder * enc, VolumeTracker *volumeTracker, bool isInput) : Page(name, display, btn, enc),
                                                                                                           pageVolume(volumeTracker),
                                                                                                           isInput(isInput)
 {
+}
+
+void VolumePage::tick(){
+    enc->tick();
+    btn->tick();
+
+    drawPage();
 }
 
 void VolumePage::drawPage()

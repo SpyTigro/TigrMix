@@ -1,12 +1,9 @@
 #include "Page.h"
 
-Page::Page(String name, LiquidCrystal *display) : name(name),
-                                                  display(display)
-{
-}
+Page::Page(String name, LiquidCrystal *display, Button *btn, Encoder *enc) : name(name),
+                                                                             display(display),
+                                                                             btn(btn),
+                                                                             enc(enc)
 
-void Page::drawPage()
 {
-    display->setCursor(0, 0);
-    display->print("should be overriden");
 }
