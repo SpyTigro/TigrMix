@@ -60,6 +60,7 @@ void loop()
 		pageIdx = pageIdx - 1 >= 0 ? pageIdx - 1 : PAGE_AMOUNT - 1;
 		curPage = pages[pageIdx]->load();
 	}
+	if(curPage->homePage()) curPage = pages[0]->load();
 
 	sendVolumeValues();
 }
