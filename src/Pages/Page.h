@@ -14,14 +14,25 @@ protected:
     Encoder *enc;
 
 public:
-	Page(String name, LiquidCrystal *display, Button *btn, Encoder *enc);
-	
-    String getName(){
+    Page(String name, LiquidCrystal *display, Button *btn, Encoder *enc) : name(name),
+                                                                           display(display),
+                                                                           btn(btn),
+                                                                           enc(enc)
+    {}
+
+    String getName()
+    {
         return name;
     }
 
-    virtual void drawPage() = 0;
+    virtual void drawPage() {}
 
-    virtual void tick() = 0;
+    virtual void tick() {}
+
+    virtual bool nextPage() { return false; }
+
+    virtual bool prevPage() { return false; }
+
+    virtual bool homePage() { return false; }
 };
 #endif

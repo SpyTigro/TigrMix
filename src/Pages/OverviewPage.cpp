@@ -14,10 +14,15 @@ void OverviewPage::tick(){
     enc->tick();
     btn->tick();
 
+    if(btn->gotPressed){
+        
+    }
+
     drawPage();
 }
 
 void OverviewPage::drawPage()
 {
+    display->setCursor(0,0);
     display->print("name");
 }

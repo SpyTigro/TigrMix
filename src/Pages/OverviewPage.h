@@ -21,5 +21,7 @@ public:
     void tick();
 
     void getVolumeTrackers();
+
+    bool nextPage() { return btn->gotLongPressed(); }
 };
 #endif
