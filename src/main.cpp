@@ -29,8 +29,19 @@ LiquidCrystal *lcd = new LiquidCrystal(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, L
 Encoder *enc = new Encoder(ENC_PIN_A, ENC_PIN_B);
 Button *encBtn = new Button(ENC_BTN);
 
-VolumeTracker *volumes[5] = {new VolumeTracker(VOLUME_NAME_1), new VolumeTracker(VOLUME_NAME_2), new VolumeTracker(VOLUME_NAME_3), new VolumeTracker(VOLUME_NAME_4), new VolumeTracker(VOLUME_NAME_5)};
-bool areInputs[5] = {VOLUME_1_IS_INPUT, VOLUME_2_IS_INPUT, VOLUME_3_IS_INPUT, VOLUME_4_IS_INPUT, VOLUME_5_IS_INPUT};
+VolumeTracker *volumes[5] = {
+	new VolumeTracker(VOLUME_NAME_1),
+	new VolumeTracker(VOLUME_NAME_2),
+	new VolumeTracker(VOLUME_NAME_3),
+	new VolumeTracker(VOLUME_NAME_4),
+	new VolumeTracker(VOLUME_NAME_5)};
+
+bool areInputs[5] = {
+	VOLUME_1_IS_INPUT,
+	VOLUME_2_IS_INPUT,
+	VOLUME_3_IS_INPUT,
+	VOLUME_4_IS_INPUT,
+	VOLUME_5_IS_INPUT};
 
 Page *pages[PAGE_AMOUNT] = {new OverviewPage("Volumes", lcd, encBtn, enc, volumes, areInputs),
 							new VolumePage("Mic", lcd, encBtn, enc, volumes[4], areInputs[4])};
@@ -59,7 +70,8 @@ void loop()
 		pageIdx = pageIdx - 1 >= 0 ? pageIdx - 1 : PAGE_AMOUNT - 1;
 		curPage = pages[pageIdx]->load();
 	}
-	if(curPage->homePage()) curPage = pages[0]->load();
+	if (curPage->homePage())
+		curPage = pages[0]->load();
 
 	sendVolumeValues();
 }

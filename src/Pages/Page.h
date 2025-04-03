@@ -4,6 +4,7 @@
 #include <LiquidCrystal.h>
 #include "Encoder.h"
 #include "Button.h"
+#include "lcdChar.h"
 
 class Page
 {

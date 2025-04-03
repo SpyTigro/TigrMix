@@ -40,4 +40,5 @@ void VolumePage::tick()
 
 void VolumePage::drawPage()
 {
+    display->print(name);
 }

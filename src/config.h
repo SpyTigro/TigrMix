@@ -11,4 +11,5 @@
 #define VOLUME_5_IS_INPUT true
 
 #define VOLUME_AMOUNT 5 //max is 5, set to the amount of volumes actually initialized
-#define PAGE_AMOUNT 2
+#define PAGE_AMOUNT 2 // amount -1 of how many volumes have their own page, page 0 is a home page that shows the first 4 volumes
+// the extra pages start at index 4 and go down to 0 so AMOUNT = 2 means all 4 volumes are only on home page and only volume 5 has its own page

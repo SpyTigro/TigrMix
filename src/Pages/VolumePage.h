@@ -2,7 +2,6 @@
 #define VolumePage_H
 #include "Page.h"
 #include "../util/VolumeTracker.h"
-#include "lcdChar.h"
 
 class VolumePage : public Page
 {
