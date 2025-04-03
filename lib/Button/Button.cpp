@@ -76,12 +76,17 @@ bool Button::gotDoubleClicked(unsigned time)
 bool Button::gotLongPressed(unsigned time)
 {
 
-    if(getTime() >= time && state == PRESSED){
-       if(!longPressed) longPressed = true;
-       else longPressed = false; 
+    if (getTime() >= time && state == PRESSED)
+    {
+        if (!longPressed)
+        {
+            longPressed = true;
+            return true;
+        }
     }
-    else longPressed = false;
-    return longPressed;
+    else if (state == RELEASED)
+        longPressed = false;
+    return false;
 }
 
 void Button::setDebounceDelay(unsigned delay)
