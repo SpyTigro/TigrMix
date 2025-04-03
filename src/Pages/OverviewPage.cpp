@@ -98,11 +98,11 @@ void OverviewPage::volChangePrint(VolumeTracker *tracker, bool isInput, byte x, 
 
     String volumeStr = (String)tracker->getVolume();
     String name = tracker->getName();
-    String toPrint;
+    String toPrint = "";
     if (!leftFacing)
     {
         toPrint = volumeStr;
-        for (int i = toPrint.length(); i < 4; i++)
+        for (int i = volumeStr.length(); i < 4; i++)
         {
             toPrint += " ";
         }
@@ -114,7 +114,7 @@ void OverviewPage::volChangePrint(VolumeTracker *tracker, bool isInput, byte x, 
     else
     {
         toPrint = name.charAt(0);
-        for (int i = toPrint.length(); i < 4; i++)
+        for (int i = volumeStr.length(); i < 4; i++)
         {
             toPrint += " ";
         }
