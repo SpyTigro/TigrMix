@@ -1,6 +1,7 @@
 // external libraries
 #include <Arduino.h>
 #include <LiquidCrystal.h>
+#include <EEPROM.h>
 
 // my libraries
 #include "Pages/Page.h"
@@ -29,6 +30,8 @@ LiquidCrystal *lcd = new LiquidCrystal(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, L
 Encoder *enc = new Encoder(ENC_PIN_A, ENC_PIN_B);
 Button *encBtn = new Button(ENC_BTN);
 
+const size_t trackerSize = sizeof(VolumeTracker);
+
 VolumeTracker *volumes[5] = {
 	new VolumeTracker(VOLUME_NAME_1),
 	new VolumeTracker(VOLUME_NAME_2),
@@ -56,9 +59,23 @@ void sendVolumeValues();
 
 void setup()
 {
+	EEPROM.begin();
+
 	lcd->begin(16, 2);
 
 	Serial.begin(115200);
+
+	if (EEPROM.read(1023) != 132)
+	{
+		EEPROM.write(1023, 132);
+	}
+	else
+	{
+		for (int i = 0; i < VOLUME_AMOUNT; i++)
+		{
+			EEPROM.get(i * trackerSize, *volumes[i]);
+		}
+	}
 }
 
 void loop()
@@ -74,11 +91,20 @@ void loop()
 		pageIdx = pageIdx - 1 >= 1 ? pageIdx - 1 : PAGE_AMOUNT - 1;
 		curPage = pages[pageIdx]->load();
 	}
-	if (curPage->homePage()){
-		if(curPage == pages[0]) curPage = pages[pageIdx]->load();
-		else curPage = pages[0]->load();
+	if (curPage->homePage())
+	{
+		if (curPage == pages[0])
+			curPage = pages[pageIdx]->load();
+		else
+			curPage = pages[0]->load();
 	}
 
+	// EEPROM only saving volumetrackers
+	for (int i = 0; i < VOLUME_AMOUNT; i++)
+	{
+		EEPROM.put(i * trackerSize, *volumes[i]);
+	}
+	
 	sendVolumeValues();
 }
 
