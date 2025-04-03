@@ -2,7 +2,7 @@
 #define OverviewPage_H
 #include "Page.h"
 #include "../util/VolumeTracker.h"
-#include "../lcdChar.h"
+#include "lcdChar.h"
 
 /**
  * this type of page displays 4 volume trackers and makes them quickly accesible

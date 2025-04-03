@@ -81,7 +81,7 @@ byte dotF[] = {
     B00000,
     B00000};
 
-byte filled2W[8] = {
+byte filled2W[] = {
     B11000,
     B11000,
     B11000,
@@ -91,7 +91,7 @@ byte filled2W[8] = {
     B11000,
     B11000};
 
-byte filled4W[8] = {
+byte filled4W[] = {
     B11110,
     B11110,
     B11110,

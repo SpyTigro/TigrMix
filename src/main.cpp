@@ -11,7 +11,6 @@
 #include "Button.h"
 
 // load config
-#include "lcdChar.h"
 #include "config.h"
 
 // initialize LCD
