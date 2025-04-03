@@ -29,6 +29,13 @@ public:
 
     virtual void tick() {}
 
+    /**
+     * this function always returns the 'this' pointer but lets implmentations do things once for setup like setting custom lcd chars
+     */
+    virtual Page *load(){
+        return this;
+    }
+
     virtual bool nextPage() { return false; }
 
     virtual bool prevPage() { return false; }

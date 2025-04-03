@@ -2,6 +2,7 @@
 #define VolumePage_H
 #include "Page.h"
 #include "../util/VolumeTracker.h"
+#include "lcdChar.h"
 
 class VolumePage : public Page
 {
@@ -9,16 +10,37 @@ private:
     VolumeTracker *pageVolume;
     bool isInput;
 
-public:
+    bool selected = false;
 
-    VolumePage(String name, LiquidCrystal *display,Button *btn, Encoder * enc, VolumeTracker *volumeTracker, bool isInput);
+public:
+    VolumePage(String name, LiquidCrystal *display, Button *btn, Encoder *enc, VolumeTracker *volumeTracker, bool isInput);
 
     void drawPage();
 
     void tick();
 
-    VolumeTracker *getPageVolumeTracker(){
-        return pageVolume;
+    
+    Page *load();
+
+    VolumeTracker getPageVolumeTracker()
+    {
+        return *pageVolume;
     }
+
+    virtual bool nextPage()
+    {
+        if (!selected && enc->pulseRight)
+            return true;
+        return false;
+    }
+
+    virtual bool prevPage()
+    {
+        if (!selected && enc->pulseLeft)
+            return true;
+        return false;
+    }
+
+    virtual bool homePage() { return btn->gotLongPressed(); }
 };
 #endif
