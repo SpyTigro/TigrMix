@@ -10,5 +10,5 @@
 #define VOLUME_4_IS_INPUT false
 #define VOLUME_5_IS_INPUT true
 
-#define VOLUME_AMOUNT 5 //max is 5, set the amount of volumes necesary
+#define VOLUME_AMOUNT 5 //max is 5, set to the amount of volumes actually initialized
 #define PAGE_AMOUNT 2

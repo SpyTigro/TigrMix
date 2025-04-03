@@ -11,6 +11,7 @@
 #include "Button.h"
 
 // load config
+#include "lcdChar.h"
 #include "config.h"
 
 // initialize LCD
@@ -29,10 +30,10 @@ LiquidCrystal lcd = LiquidCrystal(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7
 Encoder enc = Encoder(ENC_PIN_A, ENC_PIN_B);
 Button encBtn = Button(ENC_BTN);
 
-VolumeTracker *volumes[VOLUME_AMOUNT] = {new VolumeTracker(VOLUME_NAME_1), new VolumeTracker(VOLUME_NAME_2), new VolumeTracker(VOLUME_NAME_3), new VolumeTracker(VOLUME_NAME_4), new VolumeTracker(VOLUME_NAME_5)};
-bool areInputs[VOLUME_AMOUNT] = {VOLUME_1_IS_INPUT, VOLUME_2_IS_INPUT, VOLUME_3_IS_INPUT, VOLUME_4_IS_INPUT, VOLUME_5_IS_INPUT};
+VolumeTracker *volumes[5] = {new VolumeTracker(VOLUME_NAME_1), new VolumeTracker(VOLUME_NAME_2), new VolumeTracker(VOLUME_NAME_3), new VolumeTracker(VOLUME_NAME_4), new VolumeTracker(VOLUME_NAME_5)};
+bool areInputs[5] = {VOLUME_1_IS_INPUT, VOLUME_2_IS_INPUT, VOLUME_3_IS_INPUT, VOLUME_4_IS_INPUT, VOLUME_5_IS_INPUT};
 
-Page *pages[PAGE_AMOUNT] = {new OverviewPage("menu", &lcd, &encBtn, &enc, volumes, areInputs),
+Page *pages[PAGE_AMOUNT] = {new OverviewPage("Volumes", &lcd, &encBtn, &enc, volumes, areInputs),
 							new VolumePage("Mic", &lcd, &encBtn, &enc, volumes[4], areInputs[4])};
 unsigned pageIdx = 0;
 
@@ -43,13 +44,24 @@ void setup()
 	lcd.begin(16, 2);
 
 	Serial.begin(115200);
+
+    // custom chars
+    lcd.createChar((byte)0, arrowL);
+    lcd.createChar(1, arrowR);
+    lcd.createChar(2, speaker);
+    lcd.createChar(3, micIcon);
+    lcd.createChar(4, speakerMute);
+    lcd.createChar(5, micMute);
+    lcd.createChar(6, dotE);
+    lcd.createChar(7, dotF);
 }
 
 void loop()
 {
 	Page *page = pages[pageIdx];
-
-	if(page->nextPage()) pageIdx++;
+	page->tick();
+	if(page->nextPage()) pageIdx = pageIdx + 1 < PAGE_AMOUNT ? pageIdx + 1 : 0; 
+	if(page->prevPage()) pageIdx = pageIdx - 1 >= 0 ? pageIdx - 1 : PAGE_AMOUNT - 1; 
 
 	sendVolumeValues();
 }
