@@ -24,9 +24,9 @@ bool VolumeTracker::isMuted()
     return muted;
 }
 
-void VolumeTracker::addVolume(uint8_t value)
+void VolumeTracker::addVolume(int8_t value)
 {
-    if (volume < abs(value))
+    if (volume - value < 0)
     {
         volume = 0;
         return;

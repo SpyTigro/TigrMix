@@ -27,7 +27,7 @@ class VolumeTracker {
         /**
          * adds the given value to volume with overflow protection
          */
-        void addVolume(uint8_t value);
+        void addVolume(int8_t value);
 
         /**
          * set volume to given volume, fails if given volume isnt in range of [0, 100]
