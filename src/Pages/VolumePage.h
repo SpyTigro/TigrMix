@@ -11,6 +11,8 @@ private:
 
     bool selected = false;
 
+    void printVolumeBar(uint8_t value, uint8_t width);
+    String rightAllign(String str, uint8_t width);
 public:
     VolumePage(String name, LiquidCrystal *display, Button *btn, Encoder *enc, VolumeTracker *volumeTracker, bool isInput);
 
@@ -28,14 +30,14 @@ public:
 
     virtual bool nextPage()
     {
-        if (!selected && enc->pulseRight)
+        if (!selected && enc->pulseLeft)
             return true;
         return false;
     }
 
     virtual bool prevPage()
     {
-        if (!selected && enc->pulseLeft)
+        if (!selected && enc->pulseRight)
             return true;
         return false;
     }
