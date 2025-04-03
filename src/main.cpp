@@ -4,9 +4,9 @@
 
 // my libraries
 #include "Pages/Page.h"
-#include "Pages/VolumePage/VolumePage.h"
-#include "Pages/VolumePage/OverviewPage.h"
-#include "Pages/VolumePage/VolumeTracker.h"
+#include "Pages/VolumePage.h"
+#include "Pages/OverviewPage.h"
+#include "util/VolumeTracker.h"
 #include "Encoder.h"
 #include "Button.h"
 

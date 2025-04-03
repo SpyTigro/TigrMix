@@ -17,5 +17,7 @@ public:
     }
 
     virtual void drawPage();
+
+    virtual void tick();
 };
 #endif

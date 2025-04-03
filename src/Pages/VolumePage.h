@@ -2,8 +2,8 @@
 #define VolumePage_H
 #include <Arduino.h>
 #include <LiquidCrystal.h>
-#include "../Page.h"
-#include "VolumeTracker.h"
+#include "Page.h"
+#include "../util/VolumeTracker.h"
 
 class VolumePage : public Page
 {
