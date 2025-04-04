@@ -94,12 +94,14 @@ void OverviewPage::volChangePrint(VolumeTracker *tracker, bool isInput, byte x, 
 
     display->setCursor(x, y);
     byte byteToWrite;
+    byte volume = tracker->getVolume();
+    bool muted = tracker->isMuted();
     if (isInput)
-        byteToWrite = tracker->isMuted() ? 5 : 3;
+        byteToWrite = muted || volume == 0 ? 5 : 3;
     else
-        byteToWrite = tracker->isMuted() ? 4 : 2;
+        byteToWrite = muted || volume == 0 ? 4 : 2;
 
-    String volumeStr = (String)tracker->getVolume();
+    String volumeStr = (String)volume;
     String name = tracker->getName();
     String toPrint = "";
     if (!leftFacing)

@@ -69,7 +69,7 @@ void VolumePage::drawPage()
     display->print(rightAllign((String)volume, 3));
     display->setCursor(11, 1);
     display->write(2);
-    if (pageVolume->isMuted())
+    if (pageVolume->isMuted() || volume == 0)
         display->write(1);
     else
         display->write((byte)0);
