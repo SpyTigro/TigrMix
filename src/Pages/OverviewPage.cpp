@@ -104,16 +104,15 @@ void OverviewPage::volChangePrint(VolumeTracker *tracker, bool isInput, byte x, 
     String toPrint = "";
     if (!leftFacing)
     {
-        display->print(volumeStr);
-        display->setCursor(x+4,y);
-        display->print(name.charAt(0));
-        display->write(byteToWrite);
-    }
-    else
-    {
         display->write(byteToWrite);
         display->print(name.charAt(0));
         display->print(rightAllign(volumeStr, 4));
+    }
+    else
+    {
+        display->print(leftAllign(volumeStr, 4));
+        display->print(name.charAt(0));
+        display->write(byteToWrite);
     }
 }
 
@@ -126,6 +125,17 @@ String OverviewPage::rightAllign(String str, uint8_t width){
             res += " ";
         }
     res += str;
+    return res;
+}
+
+String OverviewPage::leftAllign(String str, uint8_t width){
+    uint8_t len = str.length();
+    if(len > width) return "";
+    String res = str;
+        for (int i = len; i < width; i++)
+        {
+            res += " ";
+        }
     return res;
 }
 

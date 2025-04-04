@@ -25,6 +25,7 @@ private:
     void arrowPrinter(bool arrowLeft);
 
     String rightAllign(String str, uint8_t width);
+    String leftAllign(String str, uint8_t width);
 public:
     OverviewPage(String name, LiquidCrystal *display, Button *btn, Encoder *enc, VolumeTracker *volumeTrackers[], bool areInput[]);
 
