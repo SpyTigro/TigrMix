@@ -65,9 +65,9 @@ void setup()
 
 	Serial.begin(115200);
 
-	if (EEPROM.read(1023) != 132)
+	if (EEPROM.read(1023) != 135)
 	{
-		EEPROM.write(1023, 132);
+		EEPROM.write(1023, 135);
 	}
 	else
 	{
@@ -113,7 +113,7 @@ void sendVolumeValues() // uses deej to change the values on the pc
 	String builtString = String("");
 	for (unsigned i = 0; i < VOLUME_AMOUNT; i++)
 	{
-		builtString += volumes[i]->isMuted() ? "0" : String(volumes[i]->getVolume());
+		builtString += volumes[i]->isMuted() ? "0" : String(int((1023.0 / 100) * volumes[i]->getVolume() + 1));
 
 		if (i < VOLUME_AMOUNT - 1)
 		{
