@@ -2,16 +2,15 @@
 #define Button_h
 #include <Arduino.h>
 
-
 /**
  * Simple btn library for arduino
- * 
- * Updates whenever a check is called, so no need to poll the button or use interupts
- * used with INPUT_PULLUP so just connect the button to the given Digital pin and GND of the arduino
+ *
+ * Updates whenever a check is called, so no need to poll the button or use
+ * interupts used with INPUT_PULLUP so just connect the button to the given
+ * Digital pin and GND of the arduino
  */
 class Button {
-    private:
-
+   private:
     byte pin;
     bool changed;
     unsigned long lastChangeTime;
@@ -24,12 +23,11 @@ class Button {
 
     bool hasChanged();
 
-    public:
-
+   public:
     Button(byte pin);
 
     void tick();
-    
+
     bool state;
     bool gotPressed;
     bool gotReleased;
@@ -43,6 +41,5 @@ class Button {
 
     const static bool PRESSED = false;
     const static bool RELEASED = true;
-
 };
 #endif

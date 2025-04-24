@@ -1,22 +1,18 @@
 #include "VolumePage.h"
 
-VolumePage::VolumePage(String name, LiquidCrystal *display, Button *btn, Encoder *enc, VolumeTracker *volumeTracker, bool isInput) : Page(name, display, btn, enc),
-                                                                                                                                     pageVolume(volumeTracker),
-                                                                                                                                     isInput(isInput)
-{
-}
+VolumePage::VolumePage(String name, LiquidCrystal *display, Button *btn,
+                       Encoder *enc, VolumeTracker *volumeTracker, bool isInput)
+    : Page(name, display, btn, enc),
+      pageVolume(volumeTracker),
+      isInput(isInput) {}
 
-Page *VolumePage::load()
-{
+Page *VolumePage::load() {
     display->clear();
     selected = false;
-    if (isInput)
-    {
+    if (isInput) {
         display->createChar((byte)0, micIcon);
         display->createChar(1, micMute);
-    }
-    else
-    {
+    } else {
         display->createChar((byte)0, speakerIcon);
         display->createChar(1, speakerMute);
     }
@@ -31,31 +27,23 @@ Page *VolumePage::load()
     return this;
 }
 
-void VolumePage::tick()
-{
+void VolumePage::tick() {
     enc->tick();
     btn->tick();
 
-    if (btn->gotPressed)
-        selected = !selected;
-    if (btn->gotDoubleClicked())
-        pageVolume->toggleMute();
-    if (enc->pulseRight)
-    {
-        if (selected)
-            pageVolume->addVolume(2);
+    if (btn->gotPressed) selected = !selected;
+    if (btn->gotDoubleClicked()) pageVolume->toggleMute();
+    if (enc->pulseRight) {
+        if (selected) pageVolume->addVolume(2);
     }
-    if (enc->pulseLeft)
-    {
-        if (selected)
-            pageVolume->addVolume(-2);
+    if (enc->pulseLeft) {
+        if (selected) pageVolume->addVolume(-2);
     }
 
     drawPage();
 }
 
-void VolumePage::drawPage()
-{
+void VolumePage::drawPage() {
     uint8_t volume = pageVolume->getVolume();
     String name = pageVolume->getName();
 
@@ -80,27 +68,22 @@ void VolumePage::drawPage()
     display->write(3);
 }
 
-String VolumePage::rightAllign(String str, uint8_t width)
-{
+String VolumePage::rightAllign(String str, uint8_t width) {
     uint8_t len = str.length();
-    if (len > width)
-        return "";
+    if (len > width) return "";
     String res = "";
-    for (int i = len; i < width; i++)
-    {
+    for (int i = len; i < width; i++) {
         res += " ";
     }
     res += str;
     return res;
 }
 
-void VolumePage::printVolumeBar(uint8_t value, uint8_t width)
-{
+void VolumePage::printVolumeBar(uint8_t value, uint8_t width) {
     uint8_t percentage = value;
     uint8_t squarePercentage = 100 / width;
     uint8_t count = 0;
-    while (percentage >= squarePercentage)
-    {
+    while (percentage >= squarePercentage) {
         display->write((byte)255);
         percentage -= squarePercentage;
         count++;
@@ -110,10 +93,9 @@ void VolumePage::printVolumeBar(uint8_t value, uint8_t width)
         display->write(7);
     else if (0 < percentage && percentage <= squarePercentage / 2)
         display->write(6);
-    if(percentage != 0) count++;
+    if (percentage != 0) count++;
 
-    while (count < width)
-    {
+    while (count < width) {
         display->print(" ");
         count++;
     }

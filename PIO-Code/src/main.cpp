@@ -47,7 +47,9 @@ Page *pages[PAGE_AMOUNT] = {
     new VolumePage("headset", lcd, encBtn, enc, volumes[3], areInputs[3]),
     new VolumePage("media", lcd, encBtn, enc, volumes[2], areInputs[2]),
     new VolumePage("chat", lcd, encBtn, enc, volumes[1], areInputs[1]),
-    new VolumePage("gaming", lcd, encBtn, enc, volumes[0], areInputs[0])};
+    new VolumePage("gaming", lcd, encBtn, enc, volumes[0], areInputs[0])
+};
+
 unsigned pageIdx = 1;  // cant be zero, which is the homepage only accesible by
                        // the action that the active page defined in homePage()
 Page *curPage = pages[0]->load();

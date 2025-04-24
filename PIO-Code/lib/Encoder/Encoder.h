@@ -2,22 +2,21 @@
 #define Encoder_h
 #include <Arduino.h>
 
-class Encoder
-{
-public:
-    //Setup
+class Encoder {
+   public:
+    // Setup
     Encoder(uint8_t RotL, uint8_t RotR);
-    //encoder rotations
+    // encoder rotations
     bool pulseLeft = false;
     bool pulseRight = false;
     // main loop
     void tick();
 
-private:
+   private:
     byte pin_RotL;
     byte pin_RotR;
     // enc rot variables
-    byte prev_enc_pos = 0; // Encoder-states to remember
+    byte prev_enc_pos = 0;  // Encoder-states to remember
     bool enc_rot_busy_Left = false;
     bool enc_rot_busy_Right = false;
     bool enc_reached_Left = false;

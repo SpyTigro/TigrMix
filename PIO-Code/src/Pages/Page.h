@@ -2,40 +2,33 @@
 #define Page_H
 #include <Arduino.h>
 #include <LiquidCrystal.h>
-#include "Encoder.h"
+
 #include "Button.h"
+#include "Encoder.h"
 #include "lcdChar.h"
 
-class Page
-{
-protected:
+class Page {
+   protected:
     String name;
     LiquidCrystal *display;
     Button *btn;
     Encoder *enc;
 
-public:
-    Page(String name, LiquidCrystal *display, Button *btn, Encoder *enc) : name(name),
-                                                                           display(display),
-                                                                           btn(btn),
-                                                                           enc(enc)
-    {}
+   public:
+    Page(String name, LiquidCrystal *display, Button *btn, Encoder *enc)
+        : name(name), display(display), btn(btn), enc(enc) {}
 
-    String getName()
-    {
-        return name;
-    }
+    String getName() { return name; }
 
     virtual void drawPage() {}
 
     virtual void tick() {}
 
     /**
-     * this function always returns the 'this' pointer but lets implmentations do things once for setup like setting custom lcd chars
+     * this function always returns the 'this' pointer but lets implmentations
+     * do things once for setup like setting custom lcd chars
      */
-    virtual Page *load(){
-        return this;
-    }
+    virtual Page *load() { return this; }
 
     virtual bool nextPage() { return false; }
 
