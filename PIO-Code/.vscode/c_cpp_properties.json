@@ -1,0 +1,68 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/include",
+                "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/src",
+                "C:/Users/robbe/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/lib/Encoder",
+                "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/lib/Button",
+                "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/.pio/libdeps/micro/LiquidCrystal/src",
+                "C:/Users/robbe/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "C:/Users/robbe/.platformio/packages/framework-arduino-avr/variants/micro",
+                "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/.pio/libdeps/micro/ArduinoFake/src",
+                "C:/Users/robbe/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "C:/Users/robbe/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "C:/Users/robbe/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "C:/Users/robbe/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/include",
+                    "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/src",
+                    "C:/Users/robbe/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/lib/Encoder",
+                    "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/lib/Button",
+                    "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/.pio/libdeps/micro/LiquidCrystal/src",
+                    "C:/Users/robbe/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "C:/Users/robbe/.platformio/packages/framework-arduino-avr/variants/micro",
+                    "D:/Dev/Projects/TigrMix/platform_IO_Code/TigrMix/.pio/libdeps/micro/ArduinoFake/src",
+                    "C:/Users/robbe/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "C:/Users/robbe/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "C:/Users/robbe/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    "C:/Users/robbe/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=60118",
+                "ARDUINO_AVR_MICRO",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "USB_VID=0x2341",
+                "USB_PID=0x8037",
+                "USB_PRODUCT=\"Arduino Micro\"",
+                "USB_MANUFACTURER=\"Arduino\"",
+                "__AVR_ATmega32U4__",
+                ""
+            ],
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++11",
+            "compilerPath": "C:/Users/robbe/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
+            "compilerArgs": [
+                "-mmcu=atmega32u4",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}
